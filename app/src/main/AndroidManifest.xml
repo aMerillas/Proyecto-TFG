@@ -32,19 +32,28 @@
             android:exported="true"/>
         <activity
             android:name=".SpotsList"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName="com.example.proyectotfg.MainView"/>/>
         <activity
             android:name=".SpotDetails"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName="com.example.proyectotfg.SpotsList"/>
         <activity
             android:name=".MyFavSpots"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName="com.example.proyectotfg.MainView"/>
         <activity
             android:name=".MyNextSpots"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName="com.example.proyectotfg.MainView"/>
         <activity
             android:name=".VisitedSpots"
-            android:exported="true"/>
+            android:exported="true"
+            android:parentActivityName="com.example.proyectotfg.MainView"/>
+        <activity
+            android:name=".SpotVisitedDetails"
+            android:exported="true"
+            android:parentActivityName="com.example.proyectotfg.VisitedSpots"/>
     </application>
 
 </manifest>
