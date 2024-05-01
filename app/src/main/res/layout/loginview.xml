@@ -17,21 +17,21 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="56dp"
-        android:src="@color/barf_green"
+        android:src="@drawable/senderismo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username"
+        android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         android:layout_marginTop="48dp"
-        app:startIconDrawable="@color/barf_green">
+        app:startIconDrawable="@drawable/ic_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
-        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         app:passwordToggleEnabled="true"
-        app:startIconDrawable="@color/barf_green">
+        app:startIconDrawable="@drawable/ic_passwd">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
         android:id="@+id/loginButtonLoginView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="login"
+        android:text="LOGIN"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/password" />
@@ -70,7 +70,7 @@
         android:id="@+id/texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Account"
+        android:text="NO ACOUNT"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonLoginView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="Sign Up"
+        android:text="SIGN UP"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
