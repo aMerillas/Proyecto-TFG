@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">GreenPath</string>
     <string name="revisar">Review</string>
     <string name="campoVacio">Empty Field</string>
     <string name="contNoCoincide">Passwords do not match</string>

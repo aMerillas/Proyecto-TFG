@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/imagenReg"
         android:layout_marginTop="48dp"
-        app:startIconDrawable="@color/barf_green">
+        app:startIconDrawable="@drawable/ic_user">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        app:startIconDrawable="@color/barf_green">
+        app:startIconDrawable="@drawable/ic_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/email"
-        app:startIconDrawable="@color/barf_green"
+        app:startIconDrawable="@drawable/ic_passwd"
         app:passwordToggleEnabled="true" >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -79,7 +79,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:startIconDrawable="@color/barf_green"
+        app:startIconDrawable="@drawable/ic_confpwd"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -93,7 +93,7 @@
         android:id="@+id/registerButtonRegisterView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="LOGIN"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/passwordconfirm" />
