@@ -33,7 +33,7 @@
         <activity
             android:name=".SpotsList"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.MainView"/>/>
+            android:parentActivityName="com.example.proyectotfg.MainView"/>
         <activity
             android:name=".SpotDetails"
             android:exported="true"
