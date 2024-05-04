@@ -99,6 +99,8 @@ public class MainView extends AppCompatActivity {
             userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    imageView.setVisibility(View.INVISIBLE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
                     if (documentSnapshot.exists()) {
                         // Obtener el array de IDs de spots del documento del usuario
                         List<Integer> spotIDs = (List<Integer>) documentSnapshot.get("nextSpots");
@@ -142,6 +144,8 @@ public class MainView extends AppCompatActivity {
             userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    imageView.setVisibility(View.INVISIBLE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
                     if (documentSnapshot.exists()) {
                         // Obtener el array de IDs de spots del documento del usuario
                         List<Integer> spotIDs = (List<Integer>) documentSnapshot.get("favSpots");
