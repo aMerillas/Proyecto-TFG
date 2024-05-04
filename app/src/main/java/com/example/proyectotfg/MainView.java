@@ -69,15 +69,18 @@ public class MainView extends AppCompatActivity {
         mybottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.spots_Next) {
-                    item.setChecked(true);
-                    nextSpots();
-                } else if (item.getItemId() == R.id.spots_List) {
-                    item.setChecked(true);
-                    listSpots();
-                } else if (item.getItemId() == R.id.spots_Favs) {
-                    item.setChecked(true);
-                    favSpots();
+                if (!item.isChecked()) {
+                    if (item.getItemId() == R.id.spots_Next) {
+                        item.setChecked(true);
+                        nextSpots();
+                    } else if (item.getItemId() == R.id.spots_List) {
+                        item.setChecked(true);
+                        listSpots();
+                    } else if (item.getItemId() == R.id.spots_Favs) {
+                        item.setChecked(true);
+                        favSpots();
+                    }
+                    return false;
                 }
                 return false;
             }
