@@ -4,16 +4,16 @@
     <item
         android:id="@+id/spots_Next"
         android:title="Next Spots"
-        android:icon="@drawable/ic_next"
+        android:icon="@drawable/next_icon"
         app:showAsAction="always" />
     <item
         android:id="@+id/spots_List"
         android:title="Spots List"
-        android:icon="@drawable/ic_list"
+        android:icon="@drawable/list_icon"
         app:showAsAction="always" />
     <item
         android:id="@+id/spots_Favs"
         android:title="Fav Spots"
-        android:icon="@drawable/ic_fav"
+        android:icon="@drawable/fav_icon"
         app:showAsAction="always" />
 </menu>

@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,6 +82,8 @@ public class Register extends AppCompatActivity {
                 map.put("id", id);
                 map.put("name", uName);
                 map.put("email", uEmail);
+                map.put("favSpots", new ArrayList<Integer>());
+                map.put("nextSpots", new ArrayList<Integer>());
                 firestore.collection("user").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     //Never enters onComplete function or onFailure
                     @Override
