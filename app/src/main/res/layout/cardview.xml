@@ -22,6 +22,15 @@
             app:layout_constraintTop_toTopOf="parent"
             android:src="@color/barf_green"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#80395918"
+            app:layout_constraintBottom_toBottomOf="@id/imgPlace"
+            app:layout_constraintEnd_toEndOf="@id/imgPlace"
+            app:layout_constraintStart_toStartOf="@id/imgPlace"
+            app:layout_constraintTop_toTopOf="@id/imgPlace"/>
+
         <TextView
             android:id="@+id/namePlace"
             android:layout_width="wrap_content"
@@ -32,7 +41,8 @@
             android:layout_marginBottom="16dp"
             android:text="NOMBRE SITIO"
             android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

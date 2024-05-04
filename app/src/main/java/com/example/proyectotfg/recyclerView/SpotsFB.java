@@ -2,13 +2,13 @@ package com.example.proyectotfg.recyclerView;
 
 public class SpotsFB {
 
-    String title, img;
+    String title, image1;
     int id;
 
-    public SpotsFB(int id, String title, String img) {
+    public SpotsFB(int id, String title, String image1) {
         this.id = id;
         this.title = title;
-        this.img = img;
+        this.image1 = image1;
     }
 
     public SpotsFB() {}
@@ -29,12 +29,12 @@ public class SpotsFB {
         this.title = title;
     }
 
-    public String getImg() {
-        return img;
+    public String getImage1() {
+        return image1;
     }
 
     public void setImg(String img) {
-        this.img = img;
+        this.image1 = image1;
     }
 
 }

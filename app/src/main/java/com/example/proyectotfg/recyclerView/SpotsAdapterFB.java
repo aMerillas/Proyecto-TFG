@@ -29,8 +29,8 @@ public class SpotsAdapterFB extends FirestoreRecyclerAdapter<SpotsFB, SpotsAdapt
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull SpotsFB model) {
         holder.title.setText(model.getTitle());
         Glide.with(holder.itemView.getContext())
-                .load(model.getImg())
-                .centerInside()
+                .load(model.getImage1())
+                .centerCrop()
                 .placeholder(R.drawable.senderismo)
                 .into(holder.img);
     }
