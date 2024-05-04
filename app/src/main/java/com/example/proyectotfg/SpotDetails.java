@@ -1,7 +1,12 @@
 package com.example.proyectotfg;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,7 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 public class SpotDetails extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
-    String latitude, longitude;
+    String title, latitude, longitude;
     int idSpot;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +30,32 @@ public class SpotDetails extends AppCompatActivity {
         Intent intent = getIntent();
         idSpot = intent.getIntExtra("id", 1);
         spotData(idSpot);
+        //Accion botones
+        Button addNextSpots = findViewById(R.id.addNextSpots);
+        ImageButton favSpot = findViewById(R.id.addFavSpots);
+        Button seeMapsButton = findViewById(R.id.seeMaps);
+        addNextSpots.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //Funcionalidad maps
+        seeMapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crea una Uri con las coordenadas de latitud y longitud
+                Uri myUri = Uri.parse("geo:0,0?q=" + latitude +"," + longitude + "(" + title + ") ");
+                // Crea un Intent con la acción de ver la ubicación en Google Maps
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, myUri);
+                startActivity(mapIntent);
+                // Verifica si hay una aplicación que pueda manejar el Intent
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    // Si hay una aplicación, abre Google Maps
+
+                }
+            }
+        });
     }
 
     private void spotData(int idSpot) {
@@ -36,7 +67,7 @@ public class SpotDetails extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             // El documento existe, ahora puedes obtener más datos
                             String image = document.getString("image1");
-                            String title = document.getString("title");
+                            title = document.getString("title");
                             String subtitle = document.getString("subtitle");
                             String details = document.getString("details");
                             latitude = document.getString("latitude");
