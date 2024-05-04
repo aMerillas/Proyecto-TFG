@@ -71,15 +71,12 @@ public class MainView extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.spots_Next) {
                     item.setChecked(true);
-                    Toast.makeText(MainView.this, "Next", Toast.LENGTH_SHORT).show();
                     nextSpots();
                 } else if (item.getItemId() == R.id.spots_List) {
                     item.setChecked(true);
-                    Toast.makeText(MainView.this, "List", Toast.LENGTH_SHORT).show();
                     listSpots();
                 } else if (item.getItemId() == R.id.spots_Favs) {
                     item.setChecked(true);
-                    Toast.makeText(MainView.this, "Favs", Toast.LENGTH_SHORT).show();
                     favSpots();
                 }
                 return false;
