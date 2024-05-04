@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color del texto y el icono cuando el ítem está seleccionado -->
+    <item android:color="@color/navy_green" android:state_checked="true" />
+    <!-- Color del texto y el icono cuando el ítem está en su estado normal -->
+    <item android:color="#8A8A8A" />
+</selector>
