@@ -17,7 +17,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="56dp"
-        android:src="@drawable/senderismo"
+        android:src="@drawable/logogran"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +63,7 @@
         android:layout_height="wrap_content"
         android:text="LOGIN"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
