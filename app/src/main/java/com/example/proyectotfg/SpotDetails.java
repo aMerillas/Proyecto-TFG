@@ -13,8 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.List;
 
 public class SpotDetails extends AppCompatActivity {
 
@@ -37,7 +43,7 @@ public class SpotDetails extends AppCompatActivity {
         addNextSpots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                addOrRemoveSpotFromUser(idSpot);
             }
         });
         //Funcionalidad maps
@@ -49,11 +55,6 @@ public class SpotDetails extends AppCompatActivity {
                 // Crea un Intent con la acción de ver la ubicación en Google Maps
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, myUri);
                 startActivity(mapIntent);
-                // Verifica si hay una aplicación que pueda manejar el Intent
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    // Si hay una aplicación, abre Google Maps
-
-                }
             }
         });
     }
@@ -99,7 +100,45 @@ public class SpotDetails extends AppCompatActivity {
         detailSpot.setText(details);
         typeSpot.setText(type.toUpperCase());
         difficultyProgressBar.setProgress(Math.toIntExact(difficulty));
+    }
 
+    private void addOrRemoveSpotFromUser(int spotId) {
+        // Obtener la referencia del usuario actualmente autenticado
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            // Obtener una referencia al documento del usuario
+            DocumentReference userRef = firebaseFirestore.collection("user").document(userId);
+            // Comprobar si el spot ya está en la lista de próximos spots del usuario
+            userRef.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    List<Integer> nextSpots = (List<Integer>) documentSnapshot.get("nextSpots");
+                    if (nextSpots != null && nextSpots.contains(spotId)) {
+                        // El spot ya está en la lista, eliminarlo
+                        userRef.update("nextSpots", FieldValue.arrayRemove(spotId))
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(SpotDetails.this, "Spot eliminado de próximos spots", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(SpotDetails.this, "Error al eliminar el spot de próximos spots", Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        // El spot no está en la lista, añadirlo
+                        userRef.update("nextSpots", FieldValue.arrayUnion(spotId))
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(SpotDetails.this, "Spot añadido a próximos spots", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(SpotDetails.this, "Error al añadir el spot a próximos spots", Toast.LENGTH_SHORT).show();
+                                });
+                    }
+                }
+            });
+        } else {
+            // El usuario no está autenticado, manejar según sea necesario
+            Toast.makeText(SpotDetails.this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

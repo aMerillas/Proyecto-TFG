@@ -46,17 +46,27 @@
                 android:id="@+id/buttonPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgSpot">
+                app:layout_constraintTop_toBottomOf="@id/imgSpot">
+
+                <Button
+                    android:id="@+id/seeMaps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:text="SEE IN MAPS" />
 
                 <Button
                     android:id="@+id/addNextSpots"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="ADD TO NEXT VISITS" />
+                    android:layout_weight="1"
+                    android:text="NEXT VISITS" />
 
                 <ImageButton
                     android:id="@+id/addFavSpots"
@@ -68,13 +78,83 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/infoSpot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/subtitleSpot"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonPanel">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Type:"
+                        android:layout_marginLeft="32dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/typeSpot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Type"
+                        android:textAlignment="center"
+                        android:layout_weight="2"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/difficultySpot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Difficulty:"
+                        android:layout_marginLeft="32dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:max="5"
+                        android:min="0" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/subtitleSpot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonPanel"
+                app:layout_constraintTop_toBottomOf="@+id/infoSpot"
                 android:layout_margin="16dp"
                 android:text="Subtitle Spot"
                 android:textSize="24dp"
@@ -86,72 +166,18 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:justificationMode="inter_word"
-                android:textSize="16dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris quam quam, egestas ac fermentum in, dignissim non ex. Morbi et arcu sed ipsum condimentum cursus eget ac leo. Morbi at ultricies tortor, ac maximus massa. Aliquam suscipit libero ac metus interdum, dignissim blandit magna dignissim. Aenean egestas finibus est sit amet viverra. Mauris nibh ex, vulputate eget velit quis, euismod interdum erat. Etiam iaculis dignissim dignissim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse tempor dui elit, vel ullamcorper nunc vulputate sed. Vestibulum et felis et lorem egestas interdum non id nunc.\n
 
 Aliquam vehicula dictum elit, mattis blandit elit porttitor vel. Suspendisse mollis dolor eget libero tincidunt, vitae posuere leo efficitur. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed in gravida magna, eu porta lectus. Aliquam eget velit mauris. Proin a purus a risus condimentum consectetur non sit amet tellus. Vestibulum efficitur dui et ex fermentum, quis pharetra odio varius.\n
 
 Sed ullamcorper tempus velit, vel aliquet erat commodo at. Suspendisse potenti. Aenean ante justo, viverra quis fringilla eget, iaculis vel dui. Maecenas efficitur felis interdum turpis vulputate maximus. Fusce efficitur nisi ac lorem luctus, at ullamcorper orci accumsan. Sed sed porttitor turpis, faucibus iaculis lacus. Vivamus lacinia metus sed eros cursus, in congue ex ultrices. Sed hendrerit lobortis erat, quis ornare mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae"
+                android:textSize="16dp"
+                app:layout_constraintBaseline_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subtitleSpot" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detailSpot"
-                tools:layout_editor_absoluteX="16dp">
-
-                <TextView
-                    android:id="@+id/typeSpot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Type"
-                    android:textAlignment="center"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="300dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:id="@+id/difficultySpot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Difficulty"
-                        android:textAlignment="center"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:min="0"
-                        android:max="5"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/seeMaps"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="SEE IN MAPS" />
-
-            </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
