@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,14 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.List;
 
 public class SpotDetails extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
     String title, latitude, longitude;
-    int idSpot;
+    Integer idSpot;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotdetailsview);
@@ -37,7 +45,7 @@ public class SpotDetails extends AppCompatActivity {
         addNextSpots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                addOrRemoveSpotFromUser(Long.valueOf(idSpot));
             }
         });
         //Funcionalidad maps
@@ -49,16 +57,11 @@ public class SpotDetails extends AppCompatActivity {
                 // Crea un Intent con la acción de ver la ubicación en Google Maps
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, myUri);
                 startActivity(mapIntent);
-                // Verifica si hay una aplicación que pueda manejar el Intent
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    // Si hay una aplicación, abre Google Maps
-
-                }
             }
         });
     }
 
-    private void spotData(int idSpot) {
+    private void spotData(Integer idSpot) {
         firebaseFirestore.collection("spots").
                 whereEqualTo("id", idSpot)
                 .get()
@@ -99,7 +102,49 @@ public class SpotDetails extends AppCompatActivity {
         detailSpot.setText(details);
         typeSpot.setText(type.toUpperCase());
         difficultyProgressBar.setProgress(Math.toIntExact(difficulty));
-
     }
+
+    private void addOrRemoveSpotFromUser(Long spotId) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DocumentReference userRef = firebaseFirestore.collection("user").document(userId);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<Integer> nextSpots = (List<Integer>) document.get("nextSpots");
+                        if (nextSpots != null) {
+                            if (nextSpots.contains(spotId)) {
+                                userRef.update("nextSpots", FieldValue.arrayRemove(spotId))
+                                        .addOnCompleteListener(removeTask -> {
+                                            if (removeTask.isSuccessful()) {
+                                                Toast.makeText(SpotDetails.this, "Spot eliminado de próximos spots", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(SpotDetails.this, "Error al eliminar el spot de próximos spots", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                userRef.update("nextSpots", FieldValue.arrayUnion(spotId))
+                                        .addOnCompleteListener(addTask -> {
+                                            if (addTask.isSuccessful()) {
+                                                Toast.makeText(SpotDetails.this, "Spot añadido a próximos spots", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(SpotDetails.this, "Error al añadir el spot a próximos spots", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(SpotDetails.this, "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(SpotDetails.this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
 }

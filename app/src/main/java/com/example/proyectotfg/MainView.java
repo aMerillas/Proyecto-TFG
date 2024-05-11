@@ -168,4 +168,28 @@ public class MainView extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSpotsAdapterFB.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mSpotsAdapterFB.stopListening();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSpotsAdapterFB.stopListening();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSpotsAdapterFB.startListening();
+    }
+
 }
