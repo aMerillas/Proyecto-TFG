@@ -70,7 +70,7 @@
         android:id="@+id/texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NO ACOUNT"
+        android:text="NO ACCOUNT?"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonLoginView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,8 @@
         android:text="SIGN UP"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/buttonOutline"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineDer"
