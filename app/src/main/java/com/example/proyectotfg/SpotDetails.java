@@ -40,12 +40,18 @@ public class SpotDetails extends AppCompatActivity {
         spotData(idSpot);
         //Accion botones
         Button addNextSpots = findViewById(R.id.addNextSpots);
-        ImageButton favSpot = findViewById(R.id.addFavSpots);
+        ImageView favSpot = findViewById(R.id.addFavSpots);
         Button seeMapsButton = findViewById(R.id.seeMaps);
         addNextSpots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addOrRemoveSpotFromUser(Long.valueOf(idSpot));
+            }
+        });
+        favSpot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addOrRemoveFromFav(Long.valueOf(idSpot));
             }
         });
         //Funcionalidad maps
@@ -145,6 +151,51 @@ public class SpotDetails extends AppCompatActivity {
         }
     }
 
+    private void addOrRemoveFromFav(Long spotId) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DocumentReference userRef = firebaseFirestore.collection("user").document(userId);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<Integer> nextSpots = (List<Integer>) document.get("favSpots");
+                        if (nextSpots != null) {
+                            if (nextSpots.contains(spotId)) {
+                                userRef.update("favSpots", FieldValue.arrayRemove(spotId))
+                                        .addOnCompleteListener(removeTask -> {
+                                            if (removeTask.isSuccessful()) {
+                                                Toast.makeText(SpotDetails.this, "Spot eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(SpotDetails.this, "Error al eliminar el spot de favoritos", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                userRef.update("favSpots", FieldValue.arrayUnion(spotId))
+                                        .addOnCompleteListener(addTask -> {
+                                            if (addTask.isSuccessful()) {
+                                                Toast.makeText(SpotDetails.this, "Spot añadido a favoritos", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(SpotDetails.this, "Error al añadir el spot a favoritos", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(SpotDetails.this, "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(SpotDetails.this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private void saveChangesAndReturn() {
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
 }
