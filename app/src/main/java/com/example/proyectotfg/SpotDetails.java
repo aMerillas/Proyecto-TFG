@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,7 +28,7 @@ public class SpotDetails extends AppCompatActivity {
 
     FirebaseFirestore firebaseFirestore;
     String title, latitude, longitude;
-    int idSpot;
+    Integer idSpot;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotdetailsview);
@@ -43,7 +45,7 @@ public class SpotDetails extends AppCompatActivity {
         addNextSpots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addOrRemoveSpotFromUser(idSpot);
+                addOrRemoveSpotFromUser(Long.valueOf(idSpot));
             }
         });
         //Funcionalidad maps
@@ -59,7 +61,7 @@ public class SpotDetails extends AppCompatActivity {
         });
     }
 
-    private void spotData(int idSpot) {
+    private void spotData(Integer idSpot) {
         firebaseFirestore.collection("spots").
                 whereEqualTo("id", idSpot)
                 .get()
@@ -102,43 +104,47 @@ public class SpotDetails extends AppCompatActivity {
         difficultyProgressBar.setProgress(Math.toIntExact(difficulty));
     }
 
-    private void addOrRemoveSpotFromUser(int spotId) {
-        // Obtener la referencia del usuario actualmente autenticado
+    private void addOrRemoveSpotFromUser(Long spotId) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            // Obtener una referencia al documento del usuario
             DocumentReference userRef = firebaseFirestore.collection("user").document(userId);
-            // Comprobar si el spot ya está en la lista de próximos spots del usuario
-            userRef.get().addOnSuccessListener(documentSnapshot -> {
-                if (documentSnapshot.exists()) {
-                    List<Integer> nextSpots = (List<Integer>) documentSnapshot.get("nextSpots");
-                    if (nextSpots != null && nextSpots.contains(spotId)) {
-                        // El spot ya está en la lista, eliminarlo
-                        userRef.update("nextSpots", FieldValue.arrayRemove(spotId))
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(SpotDetails.this, "Spot eliminado de próximos spots", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(SpotDetails.this, "Error al eliminar el spot de próximos spots", Toast.LENGTH_SHORT).show();
-                                });
-                    } else {
-                        // El spot no está en la lista, añadirlo
-                        userRef.update("nextSpots", FieldValue.arrayUnion(spotId))
-                                .addOnSuccessListener(aVoid -> {
-                                    Toast.makeText(SpotDetails.this, "Spot añadido a próximos spots", Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(SpotDetails.this, "Error al añadir el spot a próximos spots", Toast.LENGTH_SHORT).show();
-                                });
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<Integer> nextSpots = (List<Integer>) document.get("nextSpots");
+                        if (nextSpots != null) {
+                            if (nextSpots.contains(spotId)) {
+                                userRef.update("nextSpots", FieldValue.arrayRemove(spotId))
+                                        .addOnCompleteListener(removeTask -> {
+                                            if (removeTask.isSuccessful()) {
+                                                Toast.makeText(SpotDetails.this, "Spot eliminado de próximos spots", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(SpotDetails.this, "Error al eliminar el spot de próximos spots", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                userRef.update("nextSpots", FieldValue.arrayUnion(spotId))
+                                        .addOnCompleteListener(addTask -> {
+                                            if (addTask.isSuccessful()) {
+                                                Toast.makeText(SpotDetails.this, "Spot añadido a próximos spots", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(SpotDetails.this, "Error al añadir el spot a próximos spots", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
                     }
+                } else {
+                    Toast.makeText(SpotDetails.this, "Error al obtener los datos del usuario", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            // El usuario no está autenticado, manejar según sea necesario
             Toast.makeText(SpotDetails.this, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 }
