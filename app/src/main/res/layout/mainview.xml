@@ -36,6 +36,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/willow_tree" />
+
+<!--
+    style="@style/Widget.Design.BottomNavigationView"
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
