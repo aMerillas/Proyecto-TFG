@@ -31,7 +31,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="#80395918"
+                android:background="#40395918"
                 app:layout_constraintBottom_toBottomOf="@id/imgSpot"
                 app:layout_constraintEnd_toEndOf="@id/imgSpot"
                 app:layout_constraintStart_toStartOf="@id/imgSpot"
