@@ -7,13 +7,14 @@
 
     <ImageView
         android:id="@+id/not_found"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/not_found"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/no_path2"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recyclerView"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -36,6 +37,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu"
+        style="@style/Widget.Design.BottomNavigationView" />
+
+<!--
+    style="@style/Widget.Design.BottomNavigationView"
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
