@@ -5,4 +5,9 @@
     <string name="contNoCoincide">Las contraseñas no coinciden</string>
     <string name="min6char">Min 6 caracteres</string>
     <string name="userRegistred">Usuario registrado con exito</string>
+    <string name="cancel">Cancelar</string>
+    <string name="logOutConfirm">¿Quiere cerrar sesión?</string>
+    <string name="deleteAccount">Borrando cuenta</string>
+    <string name="deleteAccountStr">¿Está seguro? Esta accion no se puede deshacer.</string>
+    <string name="delete">Borrar</string>
 </resources>
