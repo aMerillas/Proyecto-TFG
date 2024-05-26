@@ -16,4 +16,9 @@
         android:title="Fav Spots"
         android:icon="@drawable/fav_icon"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/profile_icon"
+        app:showAsAction="always" />
 </menu>

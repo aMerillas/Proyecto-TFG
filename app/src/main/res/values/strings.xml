@@ -5,4 +5,11 @@
     <string name="contNoCoincide">Passwords do not match</string>
     <string name="min6char">Min 6 characters</string>
     <string name="userRegistred">User successfully registered</string>
+    <string name="logOutConfirm">Do you want to log out?</string>
+    <string name="cancel">Cancel</string>
+    <string name="deleteAccount">Deleting account</string>
+    <string name="deleteAccountStr">Are you sure? This action can not be undone</string>
+    <string name="delete">Delete</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="subirPhoto">Upload Photo</string>
 </resources>

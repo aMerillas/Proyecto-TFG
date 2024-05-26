@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
     private TextInputLayout email, passwd;
@@ -86,6 +87,15 @@ public class Login extends AppCompatActivity {
     private void setError() {
         email.setErrorEnabled(false);
         passwd.setErrorEnabled(false);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            goToMain();
+        }
     }
 
 }
