@@ -52,4 +52,6 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-auth:22.3.1")
+    //Maps
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }

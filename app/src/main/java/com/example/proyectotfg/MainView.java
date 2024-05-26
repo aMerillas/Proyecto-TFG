@@ -3,6 +3,7 @@ package com.example.proyectotfg;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,15 @@ import com.bumptech.glide.Glide;
 import com.example.proyectotfg.recyclerView.SpotsAdapterFB;
 import com.example.proyectotfg.recyclerView.SpotsFB;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,16 +45,17 @@ import com.google.firebase.firestore.Query;
 
 import java.util.List;
 
-public class MainView extends AppCompatActivity {
+public class MainView extends AppCompatActivity implements OnMapReadyCallback {
 
     FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
     private SpotsAdapterFB mSpotsAdapterFB;
     private RecyclerView mRecyclerView;
-    private ImageView imageView, profilePic, editProfile;
+    private ImageView imageView, profilePic, editProfile, covermap;
     private ConstraintLayout profile;
     private Button lOut, dAccount;
     private TextView uName, uEmail;
+    private GoogleMap mMap;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +89,15 @@ public class MainView extends AppCompatActivity {
 
         //Nav
         BottomNavigationView mybottomNavView = findViewById(R.id.bottom_navigation);
-        mybottomNavView.getMenu().getItem(1).setChecked(true);
+        mybottomNavView.getMenu().getItem(2).setChecked(true);
         mybottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (!item.isChecked()) {
-                    if (item.getItemId() == R.id.spots_Next) {
+                    if (item.getItemId() == R.id.spots_Map) {
+                        item.setChecked(true);
+                        mapSpot();
+                    } else if (item.getItemId() == R.id.spots_Next) {
                         item.setChecked(true);
                         nextSpots();
                     } else if (item.getItemId() == R.id.spots_List) {
@@ -132,6 +146,69 @@ public class MainView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Map
+        covermap = findViewById(R.id.coverMap);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    private void mapSpot() {
+        profile.setVisibility(View.INVISIBLE);
+        imageView.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        covermap.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        // Obtener los datos de Firebase Firestore y agregar marcadores al mapa
+        loadMarkersFromFirestore();
+        LatLng cnt = new LatLng(40.4165, -3.70256);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(cnt));
+        // Cargar el estilo del mapa desde el archivo JSON
+        try {
+            boolean success = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_json));
+
+            if (!success) {
+                // Si no se puede aplicar el estilo, mostrar un mensaje de error
+                // o realizar una acción alternativa
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadMarkersFromFirestore() {
+        firebaseFirestore.collection("spots").get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        // Obtener los datos del documento
+                        String latitudeStr = document.getString("latitude");
+                        String longitudeStr = document.getString("longitude");
+                        String title = document.getString("title");
+                        // Verificar que los valores no sean nulos antes de agregar el marcador
+                        if (latitudeStr != null && longitudeStr != null && title != null) {
+                            try {
+                                double latitude = Double.parseDouble(latitudeStr);
+                                double longitude = Double.parseDouble(longitudeStr);
+                                LatLng location = new LatLng(latitude, longitude);
+                                mMap.addMarker(new MarkerOptions().position(location).title(title));
+                            } catch (NumberFormatException e) {
+                                // Manejar el caso cuando las cadenas no se pueden convertir a números
+                                Log.e("LoadMarkers", "No se pudo convertir la cadena de latitud o longitud a un número en el documento: " + document.getId(), e);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Manejar errores al cargar los datos de Firestore
+                    Toast.makeText(MainView.this, "Error al cargar los puntos de Firebase", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void nextSpots() {
@@ -148,6 +225,7 @@ public class MainView extends AppCompatActivity {
                     profile.setVisibility(View.INVISIBLE);
                     imageView.setVisibility(View.INVISIBLE);
                     mRecyclerView.setVisibility(View.VISIBLE);
+                    covermap.setVisibility(View.VISIBLE);
                     if (documentSnapshot.exists()) {
                         // Obtener el array de IDs de spots del documento del usuario
                         List<Integer> spotIDs = (List<Integer>) documentSnapshot.get("nextSpots");
@@ -179,6 +257,7 @@ public class MainView extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
         profile.setVisibility(View.INVISIBLE);
+        covermap.setVisibility(View.VISIBLE);
     }
 
     private void favSpots() {
@@ -195,6 +274,7 @@ public class MainView extends AppCompatActivity {
                     profile.setVisibility(View.INVISIBLE);
                     imageView.setVisibility(View.INVISIBLE);
                     mRecyclerView.setVisibility(View.VISIBLE);
+                    covermap.setVisibility(View.VISIBLE);
                     if (documentSnapshot.exists()) {
                         // Obtener el array de IDs de spots del documento del usuario
                         List<Integer> spotIDs = (List<Integer>) documentSnapshot.get("favSpots");
@@ -221,6 +301,7 @@ public class MainView extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.INVISIBLE);
         profile.setVisibility(View.VISIBLE);
+        covermap.setVisibility(View.VISIBLE);
         profilePic = findViewById(R.id.profilePic);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {

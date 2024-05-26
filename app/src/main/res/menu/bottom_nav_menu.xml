@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/spots_Map"
+        android:title="Map"
+        android:icon="@drawable/map_icon"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/spots_Next"
         android:title="Next Spots"
         android:icon="@drawable/next_icon"
