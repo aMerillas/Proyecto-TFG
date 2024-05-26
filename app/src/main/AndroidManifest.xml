@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.ProyectoTFG"
         tools:targetApi="31">
+
+        <activity
+            android:parentActivityName=".MainView"
+            android:name=".EditProfile"
+            android:exported="false" />
+
         <activity
             android:name=".Splash"
             android:exported="true">
@@ -25,37 +31,37 @@
         </activity>
         <activity
             android:name=".Login"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".Register"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".MainView"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".SpotsList"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.MainView"/>
+            android:parentActivityName=".MainView" />
         <activity
             android:name=".SpotDetails"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.SpotsList"/>
+            android:parentActivityName=".SpotsList" />
         <activity
             android:name=".MyFavSpots"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.MainView"/>
+            android:parentActivityName=".MainView" />
         <activity
             android:name=".MyNextSpots"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.MainView"/>
+            android:parentActivityName=".MainView" />
         <activity
             android:name=".VisitedSpots"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.MainView"/>
+            android:parentActivityName=".MainView" />
         <activity
             android:name=".SpotVisitedDetails"
             android:exported="true"
-            android:parentActivityName="com.example.proyectotfg.VisitedSpots"/>
+            android:parentActivityName=".VisitedSpots" />
     </application>
 
 </manifest>

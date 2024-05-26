@@ -28,11 +28,18 @@
             android:id="@+id/profilePic"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/profile_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="48dp"/>
+
+        <ImageView
+            android:id="@+id/profileEdit"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/editable_icon"
+            app:layout_constraintEnd_toEndOf="@id/profilePic"
+            app:layout_constraintBottom_toBottomOf="@id/profilePic"/>
 
         <TextView
             android:id="@+id/profileName"

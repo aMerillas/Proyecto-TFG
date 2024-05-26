@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.proyectotfg.recyclerView.SpotsAdapterFB;
 import com.example.proyectotfg.recyclerView.SpotsFB;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -40,7 +41,7 @@ public class MainView extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private SpotsAdapterFB mSpotsAdapterFB;
     private RecyclerView mRecyclerView;
-    private ImageView imageView;
+    private ImageView imageView, profilePic, editProfile;
     private ConstraintLayout profile;
     private Button lOut, dAccount;
     private TextView uName, uEmail;
@@ -123,6 +124,14 @@ public class MainView extends AppCompatActivity {
         bucarUsuario(userReference);
         uEmail = findViewById(R.id.profileEmail);
         uEmail.setText(user.getEmail().toString());
+        editProfile = findViewById(R.id.profileEdit);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainView.this, EditProfile.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void nextSpots() {
@@ -212,6 +221,41 @@ public class MainView extends AppCompatActivity {
         imageView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.INVISIBLE);
         profile.setVisibility(View.VISIBLE);
+        profilePic = findViewById(R.id.profilePic);
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // Obtiene el ID del usuario actual
+            String userId = user.getUid();
+            // Accede al documento del usuario en Firestore
+            firebaseFirestore.collection("user")
+                    .document(userId)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Obtiene la URL de la foto de perfil y la carga usando Glide
+                                String photoUrl = document.getString("profilePic");
+                                if (photoUrl != null && !photoUrl.isEmpty()) {
+                                    Glide.with(this)
+                                            .load(photoUrl)
+                                            .circleCrop()
+                                            .into(profilePic);
+                                } else {
+                                    // Si no hay foto de perfil, muestra la imagen predeterminada
+                                    Glide.with(this)
+                                            .load(R.drawable.bosque)
+                                            .circleCrop()
+                                            .into(profilePic);
+                                }
+                            } else {
+                                // El documento no existe
+                            }
+                        } else {
+                            // Error al obtener el documento
+                        }
+                    });
+        }
     }
 
     private void showLogoutConfirmationDialog() {

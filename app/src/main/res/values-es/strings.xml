@@ -10,4 +10,6 @@
     <string name="deleteAccount">Borrando cuenta</string>
     <string name="deleteAccountStr">¿Está seguro? Esta accion no se puede deshacer.</string>
     <string name="delete">Borrar</string>
+    <string name="editProfile">Editar Perfil</string>
+    <string name="subirPhoto">Subir Foto</string>
 </resources>

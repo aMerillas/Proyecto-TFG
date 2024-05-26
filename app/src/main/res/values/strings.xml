@@ -10,4 +10,6 @@
     <string name="deleteAccount">Deleting account</string>
     <string name="deleteAccountStr">Are you sure? This action can not be undone</string>
     <string name="delete">Delete</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="subirPhoto">Upload Photo</string>
 </resources>
