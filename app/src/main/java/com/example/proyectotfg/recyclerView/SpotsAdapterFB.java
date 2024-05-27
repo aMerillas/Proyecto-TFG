@@ -31,7 +31,7 @@ public class SpotsAdapterFB extends FirestoreRecyclerAdapter<SpotsFB, SpotsAdapt
         Glide.with(holder.itemView.getContext())
                 .load(model.getImage1())
                 .centerCrop()
-                .placeholder(R.drawable.senderismo)
+                .placeholder(R.drawable.holder_recycler)
                 .into(holder.img);
     }
 

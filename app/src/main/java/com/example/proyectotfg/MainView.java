@@ -1,7 +1,13 @@
 package com.example.proyectotfg;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,14 +30,14 @@ import com.bumptech.glide.Glide;
 import com.example.proyectotfg.recyclerView.SpotsAdapterFB;
 import com.example.proyectotfg.recyclerView.SpotsFB;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,8 +50,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
 import java.util.List;
+import android.Manifest;
 
 public class MainView extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -56,6 +64,9 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
     private Button lOut, dAccount;
     private TextView uName, uEmail;
     private GoogleMap mMap;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+    private boolean isFirstLocationUpdate = true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,22 +175,86 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        // Obtener los datos de Firebase Firestore y agregar marcadores al mapa
-        loadMarkersFromFirestore();
-        LatLng cnt = new LatLng(40.4165, -3.70256);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(cnt));
         // Cargar el estilo del mapa desde el archivo JSON
         try {
             boolean success = mMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.style_json));
-
             if (!success) {
                 // Si no se puede aplicar el estilo, mostrar un mensaje de error
                 // o realizar una acción alternativa
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        // Obtener los datos de Firebase Firestore y agregar marcadores al mapa
+        loadMarkersFromFirestore();
+
+        // Inicializar locationManager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // Verificar permisos de ubicación
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Solicitar permisos si no están concedidos
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            return;
+        }
+        configureLocationUpdates();
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // Obtener la etiqueta (ID del spot) del marcador
+                String spotId = (String) marker.getTag();
+                // Abrir el Activity con el spot correspondiente
+                abrirActivityConSpot(spotId);
+                return false;
+            }
+        });
+    }
+
+    private void abrirActivityConSpot(String spotId) {
+        Intent intent = new Intent(MainView.this, SpotDetails.class);
+        int id = Integer.parseInt(spotId);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
+    private void configureLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                if (isFirstLocationUpdate) {
+                    LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 10));
+                    isFirstLocationUpdate = false;
+                }
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    }
+
+    // Manejar la respuesta de la solicitud de permisos
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permisos concedidos, configurar la ubicación
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                configureLocationUpdates();
+            } else {
+                LatLng cnt = new LatLng(40.4165, -3.70256);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(cnt));
+            }
         }
     }
 
@@ -191,13 +266,19 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
                         String latitudeStr = document.getString("latitude");
                         String longitudeStr = document.getString("longitude");
                         String title = document.getString("title");
+                        String spotId = document.getId(); // Obtener el ID del spot
                         // Verificar que los valores no sean nulos antes de agregar el marcador
                         if (latitudeStr != null && longitudeStr != null && title != null) {
                             try {
                                 double latitude = Double.parseDouble(latitudeStr);
                                 double longitude = Double.parseDouble(longitudeStr);
                                 LatLng location = new LatLng(latitude, longitude);
-                                mMap.addMarker(new MarkerOptions().position(location).title(title));
+                                Marker marker = mMap.addMarker(new MarkerOptions()
+                                        .position(location)
+                                        .title(title)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_gps)));
+                                // Establecer el ID del spot como la etiqueta del marcador
+                                marker.setTag(spotId); // Usar marker en lugar de markerOptions
                             } catch (NumberFormatException e) {
                                 // Manejar el caso cuando las cadenas no se pueden convertir a números
                                 Log.e("LoadMarkers", "No se pudo convertir la cadena de latitud o longitud a un número en el documento: " + document.getId(), e);
