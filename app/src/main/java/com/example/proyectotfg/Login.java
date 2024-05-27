@@ -63,7 +63,13 @@ public class Login extends AppCompatActivity {
             }
        });
         //loginButton.setOnClickListener(view -> Navigator.openActivity(Login.this, MainView.class));
-        registerButton.setOnClickListener(view -> Navigator.openActivity(Login.this, Register.class));
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toRegister = new Intent(Login.this, Register.class);
+                startActivity(toRegister);
+            }
+        });
     }
 
     private void loginUser(String uEmail, String uPass) {
