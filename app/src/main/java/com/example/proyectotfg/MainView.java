@@ -37,6 +37,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,7 +66,7 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private Location location;
+    private boolean isFirstLocationUpdate = true;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,25 +201,44 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
             return;
         }
         configureLocationUpdates();
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // Obtener la etiqueta (ID del spot) del marcador
+                String spotId = (String) marker.getTag();
+                // Abrir el Activity con el spot correspondiente
+                abrirActivityConSpot(spotId);
+                return false;
+            }
+        });
+    }
+
+    private void abrirActivityConSpot(String spotId) {
+        Intent intent = new Intent(MainView.this, SpotDetails.class);
+        int id = Integer.parseInt(spotId);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     private void configureLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        LocationListener locationListener = new LocationListener() {
+        locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
-                LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                if (isFirstLocationUpdate) {
+                    LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15)); // Zoom nivel 15
+                    isFirstLocationUpdate = false;
+                }
             }
         };
-
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
     }
 
@@ -246,16 +266,19 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
                         String latitudeStr = document.getString("latitude");
                         String longitudeStr = document.getString("longitude");
                         String title = document.getString("title");
+                        String spotId = document.getId(); // Obtener el ID del spot
                         // Verificar que los valores no sean nulos antes de agregar el marcador
                         if (latitudeStr != null && longitudeStr != null && title != null) {
                             try {
                                 double latitude = Double.parseDouble(latitudeStr);
                                 double longitude = Double.parseDouble(longitudeStr);
                                 LatLng location = new LatLng(latitude, longitude);
-                                mMap.addMarker(new MarkerOptions()
+                                Marker marker = mMap.addMarker(new MarkerOptions()
                                         .position(location)
                                         .title(title)
                                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_gps)));
+                                // Establecer el ID del spot como la etiqueta del marcador
+                                marker.setTag(spotId); // Usar marker en lugar de markerOptions
                             } catch (NumberFormatException e) {
                                 // Manejar el caso cuando las cadenas no se pueden convertir a números
                                 Log.e("LoadMarkers", "No se pudo convertir la cadena de latitud o longitud a un número en el documento: " + document.getId(), e);
