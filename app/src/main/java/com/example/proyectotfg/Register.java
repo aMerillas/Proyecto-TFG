@@ -46,7 +46,7 @@ public class Register extends AppCompatActivity {
         ImageView mNature = findViewById(R.id.imageregister);
         Glide.with(this)
                 .load(R.drawable.sol)
-                .transition(DrawableTransitionOptions.withCrossFade(3000))
+                .transition(DrawableTransitionOptions.withCrossFade(100))
                 .centerCrop()
                 //.circleCrop()
                 .placeholder(new ColorDrawable(this.getResources().getColor(R.color.black)))
