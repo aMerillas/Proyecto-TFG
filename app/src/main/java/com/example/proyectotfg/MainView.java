@@ -234,7 +234,7 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
             public void onLocationChanged(@NonNull Location location) {
                 if (isFirstLocationUpdate) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15)); // Zoom nivel 15
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 10));
                     isFirstLocationUpdate = false;
                 }
             }
