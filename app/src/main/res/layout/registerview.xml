@@ -11,7 +11,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0.6"/>
+        android:alpha="0.4"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineIzq"
