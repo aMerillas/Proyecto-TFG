@@ -45,6 +45,9 @@
         <activity
             android:name=".MainView"
             android:exported="true" />
+        <activity
+            android:name=".SpotDetails"
+            android:exported="true"/>
 
     </application>
 
