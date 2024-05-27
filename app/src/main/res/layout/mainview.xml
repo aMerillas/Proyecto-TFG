@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="48dp"/>
+            android:layout_marginTop="175dp"/>
 
         <ImageView
             android:id="@+id/profileEdit"
@@ -93,8 +93,8 @@
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/profileView"
             app:layout_constraintEnd_toEndOf="@id/profileView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="16dp">
+            app:layout_constraintTop_toBottomOf="@id/profileEmail"
+            android:layout_marginTop="16dp">
 
             <Button
                 android:id="@+id/deleteAccount"
@@ -104,6 +104,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="DELETE ACCOUNT"
+                style="@style/buttonOutline"
                 android:layout_weight="1"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="4dp"/>
@@ -116,7 +117,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="LOG OUT"
-                style="@style/buttonOutline"
                 android:layout_weight="1"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="4dp"/>
