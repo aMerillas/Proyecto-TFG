@@ -34,6 +34,15 @@ public class Login extends AppCompatActivity {
         Button loginButton = findViewById(R.id.loginButtonLoginView);
         Button registerButton = findViewById(R.id.registerButtonLoginView);
 
+        ImageView mLake = findViewById(R.id.imageback);
+        Glide.with(this)
+                .load(R.drawable.montana)
+                .transition(DrawableTransitionOptions.withCrossFade(3000))
+                .centerCrop()
+                //.circleCrop()
+                .placeholder(new ColorDrawable(this.getResources().getColor(R.color.black)))
+                .into(mLake);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

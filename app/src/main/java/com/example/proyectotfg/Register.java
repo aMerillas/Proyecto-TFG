@@ -43,6 +43,15 @@ public class Register extends AppCompatActivity {
         userPass = findViewById(R.id.password);
         userPassRep = findViewById(R.id.passwordconfirm);
         Button registerButton = findViewById(R.id.registerButtonRegisterView);
+        ImageView mNature = findViewById(R.id.imageregister);
+        Glide.with(this)
+                .load(R.drawable.sol)
+                .transition(DrawableTransitionOptions.withCrossFade(3000))
+                .centerCrop()
+                //.circleCrop()
+                .placeholder(new ColorDrawable(this.getResources().getColor(R.color.black)))
+                .into(mNature);
+
 
 
         registerButton.setOnClickListener(new View.OnClickListener() {
