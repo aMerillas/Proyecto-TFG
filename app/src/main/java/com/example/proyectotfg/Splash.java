@@ -1,11 +1,17 @@
 package com.example.proyectotfg;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+
+import pl.droidsonroids.gif.AnimationListener;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+import com.example.proyectotfg.Navigator;
+
+
 
 public class Splash extends AppCompatActivity {
 
@@ -13,21 +19,35 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashview);
-        openApp();
+
+        splash();
     }
 
-    private void openApp() {
-        Handler handler=new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent=new Intent(Splash.this, Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        },4000);
+    public void transition(Context context, Class<?> cls) {
+        Navigator.openActivity(context, cls);
+        finish();
     }
 
+    private void splash() {
+        GifImageView mSplash = findViewById(R.id.fondo);
 
+        try {
+            GifDrawable gifDrawable = new GifDrawable(getResources(), R.drawable.splash);
+            mSplash.setImageDrawable(gifDrawable);
+
+
+            gifDrawable.addAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationCompleted(int loopNumber) {
+                    // La animación ha terminado, ahora puedes iniciar la transición
+                    transition(Splash.this, Login.class);
+                }
+            });
+
+            // Inicia la animación manualmente
+            gifDrawable.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
