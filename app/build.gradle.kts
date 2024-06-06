@@ -55,6 +55,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.3.1")
     //Maps
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+    //Lottie
+    implementation ("com.airbnb.android:lottie:6.4.1")
 
     //Gifts
     implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")

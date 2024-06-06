@@ -19,7 +19,7 @@
     <item
         android:id="@+id/spots_Favs"
         android:title="Fav Spots"
-        android:icon="@drawable/fav_icon"
+        android:icon="@drawable/ic_like"
         app:showAsAction="always" />
     <item
         android:id="@+id/profile"

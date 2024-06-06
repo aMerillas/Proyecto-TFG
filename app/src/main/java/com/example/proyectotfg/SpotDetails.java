@@ -10,6 +10,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +28,7 @@ public class SpotDetails extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     String title, latitude, longitude;
     Integer idSpot;
+    boolean like = false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.spotdetailsview);
@@ -46,9 +49,12 @@ public class SpotDetails extends AppCompatActivity {
             }
         });
         favSpot.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
                 addOrRemoveFromFav(Long.valueOf(idSpot));
+                like = likeAnimation((LottieAnimationView) favSpot, R.raw.likeanimation, like);
             }
         });
         //Funcionalidad maps
@@ -194,5 +200,13 @@ public class SpotDetails extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
+    private boolean likeAnimation(LottieAnimationView imageView, int animation, boolean like) {
+        if (!like) {
+            imageView.setAnimation(animation);
+            imageView.playAnimation();
+        } else {
+            imageView.setImageResource(R.drawable.ic_like);
+        }
+        return !like;
+    }
 }
