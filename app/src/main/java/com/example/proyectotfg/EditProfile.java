@@ -122,7 +122,7 @@ public class EditProfile extends AppCompatActivity {
                 String newName = userName.getText().toString().trim();
                 if (selectedImageUri != null) {
                     if(newName.equals("")){
-                        Toast.makeText(EditProfile.this, "Inserte un Username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfile.this, R.string.insertUsername, Toast.LENGTH_SHORT).show();
                     }else{
                         // Subir la imagen al Storage
                         uploadImage(selectedImageUri, newName);
@@ -135,7 +135,7 @@ public class EditProfile extends AppCompatActivity {
                             updateUserNameAndPhoto(currentUser.getUid(), newName, null);
                         }
                     } else {
-                        Toast.makeText(EditProfile.this, "Inserte un Username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditProfile.this, R.string.insertUsername, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

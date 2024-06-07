@@ -12,4 +12,27 @@
     <string name="delete">Delete</string>
     <string name="editProfile">Edit Profile</string>
     <string name="subirPhoto">Upload Photo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="no_account">NO ACCOUNT?</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="map">Map</string>
+    <string name="next_spots">Next Spots</string>
+    <string name="spots_list">Spots List</string>
+    <string name="fav_spots">Fav Spots</string>
+    <string name="profile">Profile</string>
+    <string name="delete_account">DELETE ACCOUNT</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="see_in_maps">SEE IN MAPS</string>
+    <string name="next_visits">NEXT VISITS</string>
+    <string name="type">Type:</string>
+    <string name="difficulty">Difficulty:</string>
+    <string name="upload_photo">UPLOAD PHOTO</string>
+    <string name="save">SAVE</string>
+    <string name="point_Error">Problem loading from Firebase</string>
+    <string name="noSpots">No spots saved</string>
+    <string name="insertUsername">Insert a Username</string>
 </resources>

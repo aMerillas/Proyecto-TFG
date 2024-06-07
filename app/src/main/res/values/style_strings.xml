@@ -1,5 +1,5 @@
 <resources>
-  <string name="style_json">
+  <string name="style_json" translatable="false">
   [
     {
       \"featureType\": \"all\",

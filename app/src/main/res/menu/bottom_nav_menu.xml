@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/spots_Map"
-        android:title="Map"
+        android:title="@string/map"
         android:icon="@drawable/map_icon"
         app:showAsAction="always" />
     <item
         android:id="@+id/spots_Next"
-        android:title="Next Spots"
+        android:title="@string/next_spots"
         android:icon="@drawable/next_icon"
         app:showAsAction="always" />
     <item
         android:id="@+id/spots_List"
-        android:title="Spots List"
+        android:title="@string/spots_list"
         android:icon="@drawable/list_icon"
         app:showAsAction="always" />
     <item
         android:id="@+id/spots_Favs"
-        android:title="Fav Spots"
-        android:icon="@drawable/ic_like"
+        android:title="@string/fav_spots"
+        android:icon="@drawable/fav_icon"
         app:showAsAction="always" />
     <item
         android:id="@+id/profile"
-        android:title="Profile"
+        android:title="@string/profile"
         android:icon="@drawable/profile_icon"
         app:showAsAction="always" />
 </menu>
