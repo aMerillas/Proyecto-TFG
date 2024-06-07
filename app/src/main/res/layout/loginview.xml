@@ -44,7 +44,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,7 +61,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +69,7 @@
         android:id="@+id/loginButtonLoginView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="@string/login"
         app:layout_constraintEnd_toStartOf="@+id/guidelineDer"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guidelineIzq"
@@ -79,7 +79,7 @@
         android:id="@+id/texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NO ACCOUNT?"
+        android:text="@string/no_account"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonLoginView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,7 @@
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="SIGN UP"
+        android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -67,7 +67,7 @@
             android:id="@+id/profileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="USERNAME"
+            android:text="@string/username"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profilePic"
@@ -79,7 +79,7 @@
             android:id="@+id/profileEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="profileemail@gmail.com"
+            android:text="@string/email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileName"
@@ -104,7 +104,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="DELETE ACCOUNT"
+                android:text="@string/delete_account"
                 style="@style/buttonOutline"
                 android:layout_weight="1"
                 android:layout_marginLeft="8dp"
@@ -117,7 +117,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:text="LOG OUT"
+                android:text="@string/log_out"
                 android:layout_weight="1"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="4dp"/>
@@ -149,9 +149,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
-
-<!--
-    style="@style/Widget.Design.BottomNavigationView"
--->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -288,8 +288,9 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
                 })
                 .addOnFailureListener(e -> {
                     // Manejar errores al cargar los datos de Firestore
-                    Toast.makeText(MainView.this, "Error al cargar los puntos de Firebase", Toast.LENGTH_SHORT).show();
+                    showToast(getResources().getString(R.string.point_Error));
                 });
+//       /*getResources().getString(R.string.deleteCart))*/
     }
 
     private void nextSpots() {
@@ -370,7 +371,7 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
                             // El array de IDs de spots está vacío
                             mRecyclerView.setVisibility(View.INVISIBLE);
                             imageView.setVisibility(View.VISIBLE);
-                            Toast.makeText(MainView.this, "No hay spots favoritos", Toast.LENGTH_SHORT).show();
+                            showToast(getResources().getString(R.string.noSpots));
                         }
                     }
                 }
@@ -528,6 +529,10 @@ public class MainView extends AppCompatActivity implements OnMapReadyCallback {
                 }
             }
         });
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void goToLogin() {

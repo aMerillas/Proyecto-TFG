@@ -12,4 +12,27 @@
     <string name="delete">Borrar</string>
     <string name="editProfile">Editar Perfil</string>
     <string name="subirPhoto">Subir Foto</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">REGISTRATE</string>
+    <string name="no_account">¿NO TIENES CUENTA?</string>
+    <string name="username">Nombre de Usuario</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="map">Mapa</string>
+    <string name="next_spots">Por visitar</string>
+    <string name="spots_list">Lista</string>
+    <string name="fav_spots">Favoritos</string>
+    <string name="profile">Perfil</string>
+    <string name="delete_account">BORRAR CUENTA</string>
+    <string name="log_out">CERRAR SESIÓN</string>
+    <string name="see_in_maps">VER EN MAPS</string>
+    <string name="next_visits">PROX VISITAS</string>
+    <string name="type">Tipo:</string>
+    <string name="difficulty">Dificultad:</string>
+    <string name="upload_photo">SUBIR FOTO</string>
+    <string name="save">GUARDAR</string>
+    <string name="point_Error">Error al cargar los puntos de Firebase</string>
+    <string name="noSpots">No hay spots guardados</string>
+    <string name="insertUsername">Inserte un Nombre de Usuario</string>
 </resources>
